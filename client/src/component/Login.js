@@ -4,7 +4,7 @@ import './login.css';
 import axios from 'axios';
 
 export default class login extends Component {
-    constructor(){
+    constructor(props){
         super()
         this.state = {
             username: '',
@@ -41,7 +41,7 @@ export default class login extends Component {
                         <input required name='password' placeholder="Password" type="password" value={this.state.password} onChange={onChange}/>
                     </div>
                     <div>
-                        <a href="#">Register account</a>
+                        <a onClick={this.props.onRegisterClick} href="#">Register account</a>
                         <input className='btn btn-primary' value="Log In" type="submit"/>
                     </div>
                 </form>
