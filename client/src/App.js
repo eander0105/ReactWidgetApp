@@ -30,7 +30,7 @@ export default class App extends Component {
     return (
       <div className="App">
         <main className="App-header">
-          {this.state.register ? !this.state.register ? 'false' : 'true' : <Login onRegisterClick={onRegisterClick}/>}
+          {this.state.register ? <Register/> : <Login onRegisterClick={onRegisterClick}/>}
         </main>
       </div>
     );
