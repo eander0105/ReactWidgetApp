@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 
 export default class Register extends Component {
-    constructor(){
+    constructor(props){
         super()
         this.state = {
             username: '',
@@ -13,13 +12,7 @@ export default class Register extends Component {
         }
     }
 
-    registerUser(){
-        axios.post('/register_user', {username: this.state.username, firstname: this.state.firstname,
-        lastname: this.state.lastname, password: this.state.password, repassword: this.state.repassword})
-        .then((res) => {
-            console.log(res)
-        })        
-    }
+    
 
     render() {
         const onChange = e => {
@@ -29,7 +22,8 @@ export default class Register extends Component {
         }
         const onSubmit = e => {
             e.preventDefault();
-            this.registerUser();
+            this.props.registerUser(this.state.username, this.state.firstname, this.state.lastname,
+                this.state.password, this.state.repassword);
         }
         return (
             <div>
@@ -53,6 +47,7 @@ export default class Register extends Component {
                     <div>
                         <input className='btn btn-primary' type="submit" value='Register'/>
                     </div>
+                    <button className='btn btn-primary' onClick={this.props.backRegister}>Back</button>
                 </form>
             </div>
         )

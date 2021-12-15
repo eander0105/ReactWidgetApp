@@ -19,7 +19,7 @@ app.post('/login_user', (req, res) =>{
         if (err) throw err;
         if (results.length > 0){
             if (await bcrypt.compare(req.body.password, results[0].password)){
-                res.send('Valid login')
+                res.send(results[0]);
             }
             else{
                 res.send('Invalid password')
@@ -49,6 +49,7 @@ app.post('/register_user', (req, res) => {
                 connection.query(sql, sqlinput, (err, results) => {
                     if (err) throw err;
                     console.log('added user')
+                    res.send('results')
                 })
             }
             else {
