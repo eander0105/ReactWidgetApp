@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './login.css';
-import axios from 'axios';
 
 export default class login extends Component {
     constructor(props){
@@ -12,12 +11,7 @@ export default class login extends Component {
         }
     }
 
-    loginUser(){
-        axios.post('/login_user', {username: this.state.username, password: this.state.password})
-            .then((res) => {
-                console.log(res);
-            })
-    }
+   
     
     render() {
 
@@ -28,7 +22,7 @@ export default class login extends Component {
         }
         const onSubmit = e => {
             e.preventDefault();
-            this.loginUser();
+            this.props.loginUser(this.state.username, this.state.password);
         }
         return (
             <div>
@@ -41,7 +35,7 @@ export default class login extends Component {
                         <input required name='password' placeholder="Password" type="password" value={this.state.password} onChange={onChange}/>
                     </div>
                     <div>
-                        <a onClick={this.props.onRegisterClick} href="#">Register account</a>
+                        <a onClick={this.props.onRegisterClick} href='#'>Register account</a>
                         <input className='btn btn-primary' value="Log In" type="submit"/>
                     </div>
                 </form>
