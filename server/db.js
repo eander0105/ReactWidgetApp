@@ -4,7 +4,7 @@ var db = require('mysql')
 const connection = db.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'root'
+    password: ''
 });
 connection.connect((err) => {
     if(err){
