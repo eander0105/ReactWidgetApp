@@ -49,7 +49,7 @@ app.post('/login_user', (req, res) => {
     .then(async (result) => {
       if(result.length === 1){
         if (await bcrypt.compare(req.body.password, result[0].password)){
-          res.send('Valid login');
+          res.send(result[0]);
         }
         else{
           res.send('Invalid password')
