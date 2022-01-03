@@ -35,7 +35,7 @@ export default class login extends Component {
                         <input required name='password' placeholder="Password" type="password" value={this.state.password} onChange={onChange}/>
                     </div>
                     <div>
-                        <a onClick={this.props.onRegisterClick} href='#'>Register account</a>
+                        <a onClick={this.props.onRegisterClick} href='#0'>Register account</a>
                         <input className='btn btn-primary' value="Log In" type="submit"/>
                     </div>
                 </form>
