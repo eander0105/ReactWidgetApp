@@ -1,65 +1,67 @@
 const { urlencoded } = require('express');
 var express = require('express');
 var app = express();
-var connection = require('./db')
+var mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const recordRoutes = express.Router();
+const User = require('./models/user')
 
 const port = 5000;
 
 const saltRounds = 10;
 
+mongoose.connect("mongodb+srv://admin:admin@widgey-cluster.o4clr.mongodb.net/Widgey-app?retryWrites=true&w=majority").then((result) => {
+  console.log('connected to db');
+});
+
 app.use(express.json());
 app.use(urlencoded({extended: false}));
 
+//Register user
+app.post('/register_user', async (req, res) => {
+  var dbinput = {
+    username: req.body.username,
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    password: req.body.password
+  };
+  if(dbinput.password == req.body.repassword){
+    const salt = await bcrypt.genSalt(saltRounds)
+    dbinput.password = await bcrypt.hash(dbinput.password, salt) 
+    const user = new User(dbinput);
+    user.save()
+      .then((result) => {
+        res.send('Valid new user');
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+  }
+  else{
+    res.send('Password does not match')
+  }
+  
+})
 
-// Login
-app.post('/login_user', (req, res) =>{
-    sql = 'SELECT * FROM users WHERE username = ?';
-    connection.query(sql, req.body.username, async (err, results) => {
-        if (err) throw err;
-        if (results.length > 0){
-            if (await bcrypt.compare(req.body.password, results[0].password)){
-                res.send(results[0]);
-            }
-            else{
-                res.send('Invalid password')
-            }
+//Login user
+app.post('/login_user', (req, res) => {
+  const userexist = User.find({username: req.body.username})
+    .then(async (result) => {
+      if(result.length === 1){
+        if (await bcrypt.compare(req.body.password, result[0].password)){
+          res.send('Valid login');
         }
         else{
-            res.send('User not found')
+          res.send('Invalid password')
         }
-    });
-});
-
-app.post('/register_user', (req, res) => {
-    sql = `INSERT INTO users SET ?`
-    var sqlinput = {username: req.body.username, firstname: req.body.firstname, 
-        lastname: req.body.lastname, password: req.body.password};
-
-    connection.query('SELECT * FROM users where username = ?', sqlinput.username, async (err, results) => {
-        if (err) throw err;
-        if (results.length > 0){
-            res.send('User already exists')
-        }
-        else {
-            if (sqlinput.password == req.body.repassword){
-                const salt = await bcrypt.genSalt(saltRounds)
-                sqlinput.password = await bcrypt.hash(sqlinput.password, salt) 
-                console.log(sqlinput.password)
-                connection.query(sql, sqlinput, (err, results) => {
-                    if (err) throw err;
-                    console.log('added user')
-                    res.send('results')
-                })
-            }
-            else {
-                res.send('Password does not match')
-            }
-        }
+      }
+      else{
+        res.send('User not found')
+      }
     })
-
-    
-});
-
+    .catch((err) => {
+      console.error(err);
+    })  
+})
 
 app.listen(port, () => console.log(`Server running on port: ${port}`));
