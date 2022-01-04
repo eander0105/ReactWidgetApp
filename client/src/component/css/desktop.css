@@ -1,0 +1,32 @@
+ .menu{
+    background-color: blue;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 380px;
+    transition: all 100ms linear;
+}
+
+.menu.active{
+    transform: translateX(-100%);
+}
+
+.toggleBtn{
+    position: absolute;
+    width: 20px;
+    padding: 0;
+    margin: 0;
+    height: 80px;
+    left: 380px;
+    top: calc(50vh - 40px);
+    border-radius: 0 5px 5px 0;
+    transition: all 100ms linear;
+}
+.toggleBtn.active{
+    left: 0;
+}
+
+
+
