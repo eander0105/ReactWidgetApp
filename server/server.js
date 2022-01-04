@@ -4,7 +4,7 @@ var app = express();
 var mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const recordRoutes = express.Router();
-const User = require('./models/user')
+const User = require('./models/user');
 
 const port = 5000;
 
@@ -25,22 +25,28 @@ app.post('/register_user', async (req, res) => {
     lastname: req.body.lastname,
     password: req.body.password
   };
-  if(dbinput.password == req.body.repassword){
-    const salt = await bcrypt.genSalt(saltRounds)
-    dbinput.password = await bcrypt.hash(dbinput.password, salt) 
-    const user = new User(dbinput);
-    user.save()
-      .then((result) => {
-        res.send('Valid new user');
-      })
-      .catch((err) => {
-        console.error(err);
-      })
+  const textstuff = 'asd'
+  if(req.body.username.length > 0 && req.body.firstname.length > 0 &&
+    req.body.lastname.length > 0 && req.body.password.length > 0){
+    if(dbinput.password == req.body.repassword){
+      const salt = await bcrypt.genSalt(saltRounds)
+      dbinput.password = await bcrypt.hash(dbinput.password, salt) 
+      const user = new User(dbinput);
+      user.save()
+        .then((result) => {
+          res.send({validated: true});
+        })
+        .catch((err) => {
+          res.send({validated: false, error: 'Username already exist'});
+        })
+    }
+    else{
+      res.send({validated: false, error: 'Password does not match'});
+    } 
   }
   else{
-    res.send('Password does not match')
-  }
-  
+    res.send({validated: false, error: 'Please fill out all fields'});
+  }  
 })
 
 //Login user
@@ -49,18 +55,25 @@ app.post('/login_user', (req, res) => {
     .then(async (result) => {
       if(result.length === 1){
         if (await bcrypt.compare(req.body.password, result[0].password)){
-          res.send(result[0]);
+          res.send({username: result[0].username,
+                    firstname: result[0].firstname,
+                    lastname: result[0].lastname,
+                    authenticated: true
+          });
         }
+        //Incorrect password
         else{
-          res.send('Invalid password')
+          res.send({authenticated: false, error: 'Password or username is incorrect'});
         }
       }
+      //User not found
       else{
-        res.send('User not found')
+        res.send({authenticated: false, error: 'Password or username is incorrect'});
       }
     })
     .catch((err) => {
       console.error(err);
+      res.send({authenticated: false, error: 'Server error'});
     })  
 })
 

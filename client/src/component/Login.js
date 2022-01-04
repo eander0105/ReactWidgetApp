@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './login.css';
 
 export default class login extends Component {
     constructor(props){
-        super()
+        super();
         this.state = {
             username: '',
             password: ''
@@ -18,7 +18,7 @@ export default class login extends Component {
         const onChange = e => {
             this.setState({
                 [e.target.name]: e.target.value
-            })
+            });
         }
         const onSubmit = e => {
             e.preventDefault();
@@ -28,14 +28,18 @@ export default class login extends Component {
             <div>
                 <form onSubmit={onSubmit}>
                     <label>Log in</label>
+                    
                     <div>
                         <input required name='username' placeholder="Username" type="text" value={this.state.username} onChange={onChange}/>
                     </div>
                     <div>
                         <input required name='password' placeholder="Password" type="password" value={this.state.password} onChange={onChange}/>
                     </div>
-                    <div>
-                        <a onClick={this.props.onRegisterClick} href='#0'>Register account</a>
+                    <p id='errorMsg'>
+                        {this.props.loginError}
+                    </p>
+                    <a id='registerLink' onClick={this.props.onRegisterClick} href='#0'>Register account</a>
+                    <div>                    
                         <input className='btn btn-primary' value="Log In" type="submit"/>
                     </div>
                 </form>

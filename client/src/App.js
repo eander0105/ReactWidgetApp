@@ -13,49 +13,42 @@ export default class App extends Component {
     super();
     this.state = {
       register: false,
-      authenticated: !!Cookies.get('userid')
-    };
-  }
-
-  
-
-  loginUser(username, password){
-    axios.post('/login_user', {username: username, password: password})
-        .then((res) => {             
-            Cookies.set('userid', res.data.id, {sameSite: 'None', secure: true});
-            Cookies.set('username', res.data.username, {sameSite: 'None', secure: true});
-            Cookies.set('userfn', res.data.firstname, {sameSite: 'None', secure: true});
-            Cookies.set('userln', res.data.lastname, {sameSite: 'None', secure: true});
-            
-            this.setState({
-              'authenticated': true
-            })
-            console.log(this.state)
-            // this.state.authenticated = true;
-        })
+      authenticated: !!Cookies.get('userid'),
+      loginError: '',
+      registerError: ''
+    }
   }
 
   render() {
     const onRegisterClick = () => {
       this.setState({
-        'register': !this.state.register
+        'register': !this.state.register,
+        registerError: '',
+        loginError: ''
       });
     }  
     
     const loginUser = (username, password) => {
       axios.post('/login_user', {username: username, password: password})
-          .then((res) => {             
+          .then((res) => {
+            if(res.data.authenticated){
               Cookies.set('userid', res.data.id, {sameSite: 'None', secure: true});
               Cookies.set('username', res.data.username, {sameSite: 'None', secure: true});
               Cookies.set('userfn', res.data.firstname, {sameSite: 'None', secure: true});
               Cookies.set('userln', res.data.lastname, {sameSite: 'None', secure: true});
               
               this.setState({
-                'authenticated': true
-              })
+                'authenticated': true,
+                loginError: ''
+              });
               console.log(this.state)
-              // this.state.authenticated = true;
-          })
+            }
+            else{
+              this.setState({
+                loginError: res.data.error
+                });
+            }
+          });
     }
 
     const logOut = () => {
@@ -64,27 +57,34 @@ export default class App extends Component {
       Cookies.remove('userfn');
       Cookies.remove('userln');
       
-      console.log('test')
       this.setState({
         'authenticated': false
-      })
+      });
     }
 
     const registerUser = (uname, fname, lname, pw, repw) => {
       axios.post('/register_user', {username: uname, firstname: fname,
       lastname: lname, password: pw, repassword: repw})
       .then((res) => {
-          console.log(res)
+        if(res.data.validated){
+          console.log(res);
           this.setState({
-            'register': false
-          })
-      })    
+            'register': false,
+            registerError: ''
+          });
+        }
+        else{
+          this.setState({
+            registerError: res.data.error
+          });
+        }
+      });    
     }
 
     const backRegister = () => {
       this.setState({
         'register': false
-      })
+      });
     }
 
     return (
@@ -92,7 +92,7 @@ export default class App extends Component {
         <main className="App-header">
           {this.state.authenticated ? 
             <LoggedIn logOut={logOut}/> : this.state.register ? 
-              <Register registerUser={registerUser} backRegister={backRegister}/> : <Login loginUser={loginUser} onRegisterClick={onRegisterClick}/>}
+              <Register registerUser={registerUser} backRegister={backRegister} registerError={this.state.registerError}/> : <Login loginUser={loginUser} onRegisterClick={onRegisterClick} loginError={this.state.loginError}/>}
         </main>
       </div>
     );
