@@ -8,13 +8,15 @@
     height: 100vh;
     width: 380px;
     transition: all 100ms linear;
-    overflow-y: overlay;
+    overflow: visible;
 }
 .menu #MenuHead{
     padding: 15px;
+    height: 75px;
 }
 .menu #MenuList{
     border-top: 2px solid black;
+    overflow: visible;
 }
 .menu.active{
     transform: translateX(-100%);
@@ -40,6 +42,3 @@
 .toggleBtn.active{
     left: 0;
 }
-
-
-

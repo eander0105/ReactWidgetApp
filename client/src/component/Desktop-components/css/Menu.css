@@ -2,11 +2,12 @@
     background-color: rgba(0, 0, 0, 0.2);
     display: none;
     transition: all 100ms linear;
-    max-height: 50vh;
-    overflow-y: auto;
-    overflow-x: hidden;
+    height: auto;
+    max-width: 100%;
+    overflow: visible;
 
 }
+
 .MenuItem{
     background-color: rgba(0, 0, 0, 0.1);
     border-bottom: 2px solid black;
@@ -56,26 +57,6 @@
     background-color: transparent;
 }
 
-
-
-::-webkit-scrollbar {
-    width: 5px;
-    position: absolute;
-    left: 370px;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-    display: none;
-    background: transparent;
-  }
-  
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
+.profileForm{
+    font-size: 24px;
+}

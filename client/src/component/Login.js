@@ -11,8 +11,6 @@ export default class login extends Component {
         }
     }
 
-   
-    
     render() {
 
         const onChange = e => {
