@@ -1,0 +1,12 @@
+.Widget{
+    /* position: absolute; */
+
+}
+
+.Weather{
+    align-content: center;
+    vertical-align: center;
+    height: 200px;
+    width: 300px;
+    background-color: blue;
+}
