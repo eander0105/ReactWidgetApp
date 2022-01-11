@@ -3,6 +3,8 @@ import './Widgets.css'
 import axios from 'axios';
 import { useTimer } from 'react-timer-hook';
 import Cookies from 'js-cookie';
+import {BeatLoader, ClipLoader} from "react-spinners";
+import req from 'express/lib/request';
 
 function WeatherWidget(props) {
 
@@ -73,10 +75,18 @@ function WeatherWidget(props) {
     useEffect(() => {
         fetchWeatherData();
     }, [])
-    
     return (
         <div className='Widget Weather'>
-            {weatherData ? weatherData.data.data[0].temp : ''}
+            <div className='WeatherCurrent'>
+                {weatherData ? 
+                <div>
+                    {weatherData.data.data[0].temp} &deg;C
+                    <img src={require(`./icons/${weatherData.data.data[0].weather.icon}.png`)}/>
+                </div> : <ClipLoader color='#007BFF'/>}
+            </div>
+            <div className='WeatherForcast'>
+
+            </div>
         </div>
     )
 }
