@@ -1,5 +1,5 @@
 .Widget{
-    padding: 25px;
+    padding: 15px;
     justify-content: center;
     background-color: rgba(0, 0, 0, .4);
     border-radius: 20px;
@@ -8,10 +8,101 @@
 .Weather{
     align-content: center;
     vertical-align: center;
-    height: 250px;
-    width: 350px;
+    height: 300px;
+    width: 400px;
 }
 
 .Weather .WeatherCurrent{
+    height: 50%;
+    width: 80%;
+    display: inline;
+    /* background-color: blue; */
+}
+
+.WeatherCurrent .WeatherDesc{
+    display: block;
+    width: 40%;
+    height: 100%;
+       
+}
+
+.WeatherCurrent .CityLabel{
+    font-size: 26px;
+}
+
+.WeatherDesc .WeatherIcon{
+    height: 100px;
+    width: 100px;
+}
+
+.WeatherDesc .WeatherText{
+    margin-top: -20px;
+    font-size: 1rem;
+}
+
+.WeatherCurrent .WeatherTemp{
+    width: 40%;
+    height: 100%;
+    font-size: 40px;
+    text-align: center;
     
+}
+
+.WeatherCurrent .WeatherInfo{
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.WeatherCurrent .HighLowTemp{
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: -20px;
+}
+
+.WeatherCurrent .CurrentTemp{
+    height: 100px;
+    font-size: 45px;
+    margin-bottom: 0;
+    padding-top: 10px;
+}
+
+.WeatherCurrent .CurrentDate{
+    font-size: 1rem;
+    height: 0;
+    margin: 0;
+}
+
+.WeatherForecast{
+    height: 30%;
+    display: flex;
+    margin-top: -5px;  
+}
+
+.WeatherForecast .ForecastDay{
+    width: auto;
+    font-size: 18px;
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
+.WeatherForecast .ForecastDay img{
+    width: 80%;
+    height: auto;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.WeatherForecast .ForecastTemp{
+    margin-top: -5px;
+}
+
+.WeatherForecast .ForecastDate{
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+.WeatherForecast .ForecastWeekDay{
+    margin-bottom: 0;
 }

@@ -4,12 +4,12 @@ import axios from 'axios';
 import { useTimer } from 'react-timer-hook';
 import Cookies from 'js-cookie';
 import {BeatLoader, ClipLoader} from "react-spinners";
-import req from 'express/lib/request';
 
 function WeatherWidget(props) {
 
     const [weatherData, setWeatherData] = useState(false);
-    const [forcast, setForcast] = useState(false)
+    const [forecast, setForecast] = useState(false);
+    const [image, setImage] = useState(require('./icons/a01d.png')); 
 
     // https://api.weatherbit.io/v2.0/current?lat=58.4094&lon=15.6257&lang=sv&key=1b76a232bb664b5d904fc81b0fbc1d25 , {lat: 58.4094, lon: 15.6257, lang: 'sv', key: '1b76a232bb664b5d904fc81b0fbc1d25'}
     
@@ -33,8 +33,8 @@ function WeatherWidget(props) {
                 lang: 'sv'
             }
         }).then((res) => {
-                setWeatherData(res);
-                
+                setWeatherData(res.data.data);
+                setImage(require('./icons/' + res.data.data[0].weather.icon + '.png'));
                 // Start Timer to fetch data in 10 min
                 const newTime = new Date()
                 newTime.setSeconds(newTime.getSeconds() + 600) // Timer 10 min from now
@@ -52,12 +52,11 @@ function WeatherWidget(props) {
                 key: APIkey,
                 lat: userData.lat,
                 lon: userData.lon,
-                lang: 'sv'
+                lang: 'sv',
+                days: 7
             }
         }).then((res) => {
-                setForcast(res);
-                
-                // Start Timer to fetch data in 10 min
+                setForecast(res.data.data);
                 const newTime = new Date()
                 newTime.setSeconds(newTime.getSeconds() + 600) // Timer 10 min from now
                 restart(newTime);
@@ -65,6 +64,10 @@ function WeatherWidget(props) {
                 console.error(err);
             });
 
+    }
+
+    const loadIcon = (iconCode = 'a01d') => {
+        return require(`./icons/${iconCode}.png`);
     }
 
     // Timer
@@ -75,18 +78,65 @@ function WeatherWidget(props) {
     useEffect(() => {
         fetchWeatherData();
     }, [])
-    return (
-        <div className='Widget Weather'>
-            <div className='WeatherCurrent'>
-                {weatherData ? 
-                <div>
-                    {weatherData.data.data[0].temp} &deg;C
-                    <img src={require(`./icons/${weatherData.data.data[0].weather.icon}.png`)}/>
-                </div> : <ClipLoader color='#007BFF'/>}
-            </div>
-            <div className='WeatherForcast'>
 
-            </div>
+    const weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    const d = new Date();
+    let day = weekday[d.getDay()];
+    
+
+    return (
+        <div className='Widget Weather'>                  
+            {weatherData ? 
+            <div className='WeatherCurrent'>
+                <label className='CityLabel'>
+                    {weatherData[0].city_name}
+                </label>
+                <div className='WeatherInfo'>
+                    <div className='WeatherDesc'>
+                        <img className='WeatherIcon' src={loadIcon(weatherData[0].weather.icon).default} alt='weathericon'/>
+                        <p className='WeatherText'>
+                            {weatherData[0].weather.description}   
+                        </p>
+                    </div>
+                    <div className='WeatherTemp'>
+                        <p className='CurrentDate'>
+                            {weekday[d.getDay()]} {`${d.getMonth() + 1}/${d.getDate()}`}
+                        </p>
+                        <p className='CurrentTemp'>
+                            {weatherData[0].temp}&deg;C
+                        </p>
+                        <div className='HighLowTemp'>
+                            {forecast ? 
+                                <p>
+                                    H: {forecast[0].high_temp}&deg; L: {forecast[0].low_temp}&deg;
+                                </p> : <BeatLoader color='#007BFF'/>}
+                        </div>
+                    </div>                                                      
+                </div>
+            </div> : <ClipLoader color='#007BFF'/>}          
+            {forecast ?
+                <div className='WeatherForecast'>
+                    
+                    {forecast.slice(1).map((item) => {
+                        return(
+                            <div className='ForecastDay'>
+                                <p className='ForecastWeekDay'>
+                                    {weekday[(item.datetime.slice(8) - d.getDay() + 1) % 7]}
+                                </p>
+                                <p className='ForecastDate'>
+                                    {item.datetime.slice(5).replace('-', '/')}
+                                </p>
+                                <img src={loadIcon(item.weather.icon).default}/>
+                                <p className='ForecastTemp'>
+                                    {item.high_temp}&deg;                            
+                                </p>
+                            </div>
+                        )       
+                    })}
+                </div> : <BeatLoader color='#007BFF'/>
+            }
+            
         </div>
     )
 }
