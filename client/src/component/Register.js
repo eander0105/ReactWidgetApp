@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './login.css';
+import './css/login.css';
 
 export default class Register extends Component {
     constructor(props){
@@ -12,8 +12,6 @@ export default class Register extends Component {
             repassword: ''
         }
     }
-
-    
 
     render() {
         const onChange = e => {

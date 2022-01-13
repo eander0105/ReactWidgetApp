@@ -5,7 +5,7 @@ import Register from './component/Register';
 import Cookies from 'js-cookie';
 import React, { Component } from 'react'
 import axios from 'axios';
-import LoggedIn from './component/LoggedIn';
+import Desktop from './component/Desktop';
 
 export default class App extends Component {
 
@@ -91,7 +91,7 @@ export default class App extends Component {
       <div className="App">
         <main className="App-header">
           {this.state.authenticated ? 
-            <LoggedIn logOut={logOut}/> : this.state.register ? 
+            <Desktop logOut={logOut}/> : this.state.register ? 
               <Register registerUser={registerUser} backRegister={backRegister} registerError={this.state.registerError}/> : <Login loginUser={loginUser} onRegisterClick={onRegisterClick} loginError={this.state.loginError}/>}
         </main>
       </div>

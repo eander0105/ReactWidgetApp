@@ -1,0 +1,44 @@
+ .menu{
+    background-color: rgba(0, 0, 0, 0.1);
+    border-right: 1px black solid;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 380px;
+    transition: all 100ms linear;
+    overflow: visible;
+}
+.menu #MenuHead{
+    padding: 15px;
+    height: 75px;
+}
+.menu #MenuList{
+    border-top: 2px solid black;
+    overflow: visible;
+}
+.menu.active{
+    transform: translateX(-100%);
+}
+
+.toggleBtn{
+    position: absolute;
+    width: 20px;
+    padding: 0;
+    margin: 0;
+    height: 80px;
+    left: 380px;
+    top: calc(50vh - 40px);
+    border-radius: 0 5px 5px 0;
+    transition: all 100ms linear;
+}
+.toggleBtn:focus{
+    box-shadow: none !important;
+}
+.toggleBtn:hover{
+    background-color: gray;
+}
+.toggleBtn.active{
+    left: 0;
+}

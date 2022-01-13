@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './login.css';
+import './css/login.css';
 
 export default class login extends Component {
     constructor(props){
@@ -11,8 +11,6 @@ export default class login extends Component {
         }
     }
 
-   
-    
     render() {
 
         const onChange = e => {

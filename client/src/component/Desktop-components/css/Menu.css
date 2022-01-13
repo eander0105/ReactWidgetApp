@@ -1,0 +1,62 @@
+.subMenu{
+    background-color: rgba(0, 0, 0, 0.2);
+    display: none;
+    transition: all 100ms linear;
+    height: auto;
+    max-width: 100%;
+    overflow: visible;
+
+}
+
+.MenuItem{
+    background-color: rgba(0, 0, 0, 0.1);
+    border-bottom: 2px solid black;
+}
+.MenuItem.active{
+    background-color: rgba(0, 0, 0, 0.2);
+    
+}
+.MenuItem .Title{
+    display: flex;
+    padding: 10px;
+    cursor: pointer;
+}
+.MenuItem .Title:hover{
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.MenuItem .Title #Icon{
+    flex: 20%;
+    place-items: center;
+}
+.MenuItem .Title #Icon *{
+    width: 35px;
+    height: 35px;
+}
+.MenuItem .Title #Title{
+    flex: 70%;
+    text-align: left;
+    margin: auto 0;
+    font-size: 24px;
+}
+.MenuItem .Title #DropIcon{
+    flex: 10%
+}
+.MenuItem .Title #DropIcon * {
+    width: 30px;
+    height: 30px;
+}
+.subMenu.active{
+    display: block;
+    padding-bottom: 10px;
+}
+.subMenu.active{
+    padding: 10px;
+}
+
+.subMenu form{
+    background-color: transparent;
+}
+
+.profileForm{
+    font-size: 24px;
+}
