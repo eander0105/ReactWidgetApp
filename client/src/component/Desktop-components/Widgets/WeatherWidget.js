@@ -9,7 +9,6 @@ function WeatherWidget(props) {
 
     const [weatherData, setWeatherData] = useState(false);
     const [forecast, setForecast] = useState(false);
-    const [image, setImage] = useState(require('./icons/a01d.png')); 
 
     // https://api.weatherbit.io/v2.0/current?lat=58.4094&lon=15.6257&lang=sv&key=1b76a232bb664b5d904fc81b0fbc1d25 , {lat: 58.4094, lon: 15.6257, lang: 'sv', key: '1b76a232bb664b5d904fc81b0fbc1d25'}
     
@@ -34,7 +33,6 @@ function WeatherWidget(props) {
             }
         }).then((res) => {
                 setWeatherData(res.data.data);
-                setImage(require('./icons/' + res.data.data[0].weather.icon + '.png'));
                 // Start Timer to fetch data in 10 min
                 const newTime = new Date()
                 newTime.setSeconds(newTime.getSeconds() + 600) // Timer 10 min from now
@@ -120,9 +118,9 @@ function WeatherWidget(props) {
                     
                     {forecast.slice(1).map((item) => {
                         return(
-                            <div className='ForecastDay'>
+                            <div className='ForecastDay' key={item.datetime.slice(8)}>
                                 <p className='ForecastWeekDay'>
-                                    {weekday[(item.datetime.slice(8) - d.getDay() + 1) % 7]}
+                                    {weekday[(parseInt(d.getDay()) + parseInt(item.datetime.slice(8)) + 1) % 7]}
                                 </p>
                                 <p className='ForecastDate'>
                                     {item.datetime.slice(5).replace('-', '/')}
