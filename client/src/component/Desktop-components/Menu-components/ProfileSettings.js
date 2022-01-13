@@ -4,7 +4,6 @@ function ProfileSettings(props) {
 
     return (    
         <div>
-            <h1>test</h1>
             <form className='profileForm' action="">
                 <div >
                     <input type="text" placeholder='Firstname'/>

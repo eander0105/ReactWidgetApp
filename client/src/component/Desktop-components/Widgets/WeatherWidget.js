@@ -84,7 +84,7 @@ function WeatherWidget(props) {
     
 
     return (
-        <div className='Widget Weather'>                  
+        <div className='Widget Weather' >                  
             {weatherData ? 
             <div className='WeatherCurrent'>
                 <label className='CityLabel'>

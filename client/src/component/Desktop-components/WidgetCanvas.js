@@ -1,11 +1,25 @@
 import React from 'react'
 import Widget from './Widgets/Widget';
+import WeatherWidget from './Widgets/WeatherWidget';
 import './css/widgetCanvas.css'
 
-function WidgetCanvas() {
+function WidgetCanvas(props) {
+
+    const widgetLoader = (widgetCode) => {
+        switch (widgetCode) {
+            case 'weatherWidget':
+                return <WeatherWidget/>
+            default:
+                return false
+        }
+    }
     return (
         <div className='widgetCanvas'>
-            <Widget/>
+            {props.profile.map((item) => {
+                return(
+                    <Widget Widget={widgetLoader(item)}/>
+                )
+            })}
         </div>
     )
 }
