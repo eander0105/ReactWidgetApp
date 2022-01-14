@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const recordRoutes = express.Router();
 const User = require('./models/user');
+const Location = require('./models/location');
 
 const port = 5000;
 
@@ -23,21 +24,28 @@ app.post('/register_user', async (req, res) => {
     username: req.body.username,
     firstname: req.body.firstname,
     lastname: req.body.lastname,
-    password: req.body.password
+    password: req.body.password,
+    location: {},
+    widgets: []
   };
-  const textstuff = 'asd'
+
   if(req.body.username.length > 0 && req.body.firstname.length > 0 &&
     req.body.lastname.length > 0 && req.body.password.length > 0){
     if(dbinput.password == req.body.repassword){
       const salt = await bcrypt.genSalt(saltRounds)
       dbinput.password = await bcrypt.hash(dbinput.password, salt) 
-      const user = new User(dbinput);
-      user.save()
-        .then((result) => {
-          res.send({validated: true});
-        })
-        .catch((err) => {
-          res.send({validated: false, error: 'Username already exist'});
+      Location.findOne({city: req.body.location}, {"city": 1, "lat": 1, "lng": 1, "_id": 0})
+        .then((locationResult) => {
+          dbinput.location = locationResult;
+          const user = new User(dbinput);
+
+          user.save()
+            .then((result) => {
+              res.send({validated: true});
+            })
+            .catch((err) => {
+              res.send({validated: false, error: 'Username already exist'});
+            })
         })
     }
     else{
@@ -51,13 +59,14 @@ app.post('/register_user', async (req, res) => {
 
 //Login user
 app.post('/login_user', (req, res) => {
-  const userexist = User.find({username: req.body.username})
+    User.find({username: req.body.username})
     .then(async (result) => {
       if(result.length === 1){
         if (await bcrypt.compare(req.body.password, result[0].password)){
           res.send({username: result[0].username,
                     firstname: result[0].firstname,
                     lastname: result[0].lastname,
+                    location: result[0].location,
                     authenticated: true
           });
         }
@@ -76,5 +85,30 @@ app.post('/login_user', (req, res) => {
       res.send({authenticated: false, error: 'Server error'});
     })  
 })
+
+//Fetch all locations
+app.get('/location', (req, res) => {
+  Location.find({}, {"city": 1})
+    .then((result) => {
+      res.send(result);
+    })
+})
+
+app.post('/getWidgets', (req, res) => {
+  User.find({username: req.body.username}, {"widgets": 1, "_id": 0})
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => console.log(err))
+})
+
+app.post('/updateWidgets', (req, res) => {
+  User.findOneAndUpdate({username: req.body.username}, 
+    {widgets: req.body.widgets}, {upsert: true}, (err, doc) => {
+      if (err) return res.send(500, {error: err});
+      return res.send('Succesfully saved.');
+    })
+})
+
 
 app.listen(port, () => console.log(`Server running on port: ${port}`));

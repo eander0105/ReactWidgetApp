@@ -108,7 +108,7 @@ function WidgetMenu(props) {
                     
                     {items.map((item) => {
                         return(
-                            <div className='WidgetItem' onClick={() => props.widgetOnClick(item.WidgetCode)}>
+                            <div className='WidgetItem' onClick={() => props.widgetOnClick({widgetCode: item.WidgetCode, posY: 100, posX: 100})}>
                                 <img className='WidgetIcon' src={loadIcon(item.IconCode).default} alt={item.IconCode} />
                             </div>
                         )

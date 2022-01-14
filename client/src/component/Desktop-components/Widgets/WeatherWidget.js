@@ -15,12 +15,11 @@ function WeatherWidget(props) {
     const APIkey = '1b76a232bb664b5d904fc81b0fbc1d25';
 
     const userData = {
-        lat: '58.4094',
-        lon: '15.6257',
+        lat: Cookies.get('userlat'),
+        lng: Cookies.get('userlng')
     }
 
     const fetchWeatherData = () => {
-
         // Current weather API call
         axios({
             method: 'post',
@@ -28,8 +27,7 @@ function WeatherWidget(props) {
             params: {
                 key: APIkey,
                 lat: userData.lat,
-                lon: userData.lon,
-                lang: 'sv'
+                lon: userData.lng,
             }
         }).then((res) => {
                 setWeatherData(res.data.data);
@@ -49,8 +47,7 @@ function WeatherWidget(props) {
             params: {
                 key: APIkey,
                 lat: userData.lat,
-                lon: userData.lon,
-                lang: 'sv',
+                lon: userData.lng,
                 days: 7
             }
         }).then((res) => {
@@ -120,7 +117,7 @@ function WeatherWidget(props) {
                         return(
                             <div className='ForecastDay' key={item.datetime.slice(8)}>
                                 <p className='ForecastWeekDay'>
-                                    {weekday[(parseInt(d.getDay()) + parseInt(item.datetime.slice(8)) + 1) % 7]}
+                                    {weekday[(parseInt(d.getDay()) + parseInt(item.datetime.slice(8))) % 7]}
                                 </p>
                                 <p className='ForecastDate'>
                                     {item.datetime.slice(5).replace('-', '/')}

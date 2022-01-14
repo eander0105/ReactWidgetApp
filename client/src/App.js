@@ -36,6 +36,10 @@ export default class App extends Component {
               Cookies.set('username', res.data.username, {sameSite: 'None', secure: true});
               Cookies.set('userfn', res.data.firstname, {sameSite: 'None', secure: true});
               Cookies.set('userln', res.data.lastname, {sameSite: 'None', secure: true});
+              Cookies.set('usercity', res.data.location.city, {sameSite: 'None', secure: true});
+              Cookies.set('userlat', res.data.location.lat, {sameSite: 'None', secure: true});
+              Cookies.set('userlng', res.data.location.lng, {sameSite: 'None', secure: true});
+              console.log(Cookies.get('userlat'));
               
               this.setState({
                 'authenticated': true,
@@ -56,15 +60,16 @@ export default class App extends Component {
       Cookies.remove('username');
       Cookies.remove('userfn');
       Cookies.remove('userln');
+      Cookies.remove('userlocation');
       
       this.setState({
         'authenticated': false
       });
     }
 
-    const registerUser = (uname, fname, lname, pw, repw) => {
+    const registerUser = (uname, fname, lname, pw, repw, city) => {
       axios.post('/register_user', {username: uname, firstname: fname,
-      lastname: lname, password: pw, repassword: repw})
+      lastname: lname, password: pw, repassword: repw, location: city})
       .then((res) => {
         if(res.data.validated){
           console.log(res);

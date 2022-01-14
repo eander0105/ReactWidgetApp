@@ -18,7 +18,18 @@ const userSchema = new Schema({
     password: {
         type: String
         
-    }
+    },
+    location: { 
+        city: {type: String},   
+        lat: {type: String},
+        lng: {type: String}
+    },
+    widgets: [{
+        widgetCode: String,
+        posX: Number,
+        posY: Number
+    }]
+    
 });
 
 const User = mongoose.model('User', userSchema);

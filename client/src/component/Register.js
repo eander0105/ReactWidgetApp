@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import './css/login.css';
 
@@ -9,8 +10,18 @@ export default class Register extends Component {
             firstname: '',
             lastname: '',
             password: '',
-            repassword: ''
+            repassword: '',
+            city: '',
+            locationList: false
         }
+    }
+
+    componentDidMount(){
+        axios.get('/location')
+            .then((res) => {
+                console.log(res.data);
+                this.setState({locationList: res.data})
+            })
     }
 
     render() {
@@ -22,8 +33,9 @@ export default class Register extends Component {
         const onSubmit = e => {
             e.preventDefault();
             this.props.registerUser(this.state.username, this.state.firstname, this.state.lastname,
-                this.state.password, this.state.repassword);
+                this.state.password, this.state.repassword, this.state.city);
         }
+
         return (
             <div>
                 <form onSubmit={onSubmit}>
@@ -36,6 +48,18 @@ export default class Register extends Component {
                     </div>
                     <div>
                         <input name='lastname' type="text" placeholder='Lastname' value={this.state.lastname} required onChange={onChange}/>
+                    </div>
+                    <div>
+                        <select name="city" style={{width: "100%"}} required onChange={onChange}>
+                            <option selected disabled>
+                                Choose your location...
+                            </option>
+                            {this.state.locationList ? this.state.locationList.map((item) =>{
+                                return(
+                                    <option key={item._id} value={item.city} label={item.city}/>
+                                )
+                            }) : ''}
+                        </select>
                     </div>
                     <div>
                         <input name='password' type="password" placeholder='Password' value={this.state.password} required onChange={onChange}/>

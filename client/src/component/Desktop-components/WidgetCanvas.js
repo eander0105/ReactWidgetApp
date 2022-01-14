@@ -17,7 +17,7 @@ function WidgetCanvas(props) {
         <div className='widgetCanvas'>
             {props.profile.map((item) => {
                 return(
-                    <Widget Widget={widgetLoader(item)}/>
+                    <Widget Widget={widgetLoader(item.widgetCode) } PosX={item.posX} PosY={item.posY}/>
                 )
             })}
         </div>
