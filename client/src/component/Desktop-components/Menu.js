@@ -3,10 +3,12 @@ import React, { useState } from 'react';
 import './css/Menu.css'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AppsIcon from '@mui/icons-material/Apps';
+import EditIcon from '@mui/icons-material/Edit';
 import { Scrollbars } from 'react-custom-scrollbars';
 import MenuItem from './Menu-components/MenuItem';
 import ProfileSettings from './Menu-components/ProfileSettings';
 import WidgetMenu from './Menu-components/WidgetMenu';
+import EditMode from './Menu-components/EditMode';
 
 function Menu(props) {
 
@@ -27,6 +29,7 @@ function Menu(props) {
                     <div id='MenuList'>                   
                         <MenuItem element={<ProfileSettings logOut={props.logOut}/>} Title='Profile' Icon={<AccountCircleIcon/>}/>
                         <MenuItem element={<WidgetMenu widgetOnClick={props.widgetOnClick} />} Title='Widget Menu' Icon={<AppsIcon/>}/>
+                        <MenuItem element={<EditMode editMode={props.editMode} activateEditMode={props.activateEditMode} revertProfile={props.revertProfile} saveProfile={props.saveProfile}/>} Title='Edit mode' Icon={<EditIcon/>}/>
                     </div>
                 </Scrollbars>
             </div>

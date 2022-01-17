@@ -8,15 +8,20 @@ import Cookies from 'js-cookie';
 function Desktop(props) { 
 
     const [userProfile, setUserProfile] = useState([])
+    const [updatedProfile, setUpdatedProfile] = useState([])
+    const [editMode, setEditMode] = useState(false)
 
-    useEffect(() => {      
+    
+    const getWidgets = () => {
         axios.post('/getWidgets', {
             username: Cookies.get('username')
         }).then((result) => {
-            console.log(result);
             setUserProfile(result.data[0].widgets);
-            console.log(result.data[0].widgets);
         })
+    }
+
+    useEffect(() => {      
+        getWidgets();
     }, [])
 
     const widgetClick = (widget) => {
@@ -26,15 +31,49 @@ function Desktop(props) {
         console.log(userProfile);
         axios.post('/updateWidgets', {username: Cookies.get('username'), widgets: newProfile})
             .then((result) => {
-                console.log(result);
+                getWidgets();
             })
+    }
+
+    const activateEditMode = () => {
+        setEditMode(true);
+        setUpdatedProfile([...userProfile]);
+    }
+    
+    const saveNewProfile = () => {
+
+        axios.post('/updateWidgets', {username: Cookies.get('username'), widget: updatedProfile})
+            .then((result) =>{
+                console.log(updatedProfile);
+                setUserProfile(updatedProfile);
+                setEditMode(false);
+            })
+        
+    }
+
+    const revertNewProfile = () => {
+        setEditMode(false);
+        setUpdatedProfile(userProfile);
+    }
+
+    const deleteItem = (itemId) => {
+        // console.log(updatedProfile.findIndex(x => x._id === itemId));
+        console.log(itemId);
+        const removeIndex = updatedProfile.findIndex(x => x._id === itemId)
+        const newArray = [];
+        for (let i = 0; i < updatedProfile.length; i++) {
+            if (i !== removeIndex) {
+                console.log(updatedProfile[i]);
+                newArray.push(updatedProfile[i])
+            }
+        }
+        setUpdatedProfile(newArray);
     }
 
     return (
         <div className='desktop'>
-            {console.log(userProfile)}
-            <WidgetCanvas profile={userProfile}/>
-            <Menu logOut={props.logOut} widgetOnClick={widgetClick} />
+            <WidgetCanvas profile={[userProfile, updatedProfile]} editMode={editMode} deleteItem={deleteItem}/>
+            <Menu logOut={props.logOut} widgetOnClick={widgetClick} activateEditMode={activateEditMode} editMode={editMode} revertProfile={revertNewProfile} saveProfile={saveNewProfile}/>
         </div>
     )
 }
