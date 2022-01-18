@@ -24,19 +24,15 @@ function Desktop(props) {
         getWidgets();
     }, [])
 
-    const widgetClick = (widget) => {
-        if (editMode) {
-            setUpdatedProfile([...updatedProfile, widget])
-        }
-        else{
-            const newProfile = [...userProfile, widget]       
-    
-            setUserProfile(newProfile)
-            axios.post('/updateWidgets', {username: Cookies.get('username'), widgets: newProfile})
-                .then((result) => {
-                    getWidgets();
-                })
-        }
+    const widgetClick = (widget) => {       
+        const newProfile = [...userProfile, widget]       
+        
+        setUpdatedProfile([...updatedProfile, widget])
+        setUserProfile(newProfile)
+        axios.post('/updateWidgets', {username: Cookies.get('username'), widgets: newProfile})
+            .then((result) => {
+                getWidgets();
+            })
     }
 
     const activateEditMode = () => {
@@ -44,8 +40,11 @@ function Desktop(props) {
         setUpdatedProfile([...userProfile]);
     }
     
-    const saveNewProfile = () => {
-        axios.post('/updateWidgets', {username: Cookies.get('username'), widgets: updatedProfile})
+    const saveNewProfile = (profile) => {
+        if (!profile) {
+            profile = updatedProfile;
+        }
+        axios.post('/updateWidgets', {username: Cookies.get('username'), widgets: profile})
             .then((result) =>{
                 setUserProfile(updatedProfile);
             })
@@ -54,7 +53,6 @@ function Desktop(props) {
 
     const revertNewProfile = () => {
         setEditMode(false);
-        setUpdatedProfile(userProfile);
     }
 
     const deleteItem = (itemId) => {
@@ -66,7 +64,7 @@ function Desktop(props) {
             }
         }
         setUpdatedProfile(newArray);
-        saveNewProfile();
+        saveNewProfile(newArray);
     }
 
     const newPos = (itemId, pos) => {
@@ -75,12 +73,11 @@ function Desktop(props) {
         newArray[updatedPos].posX = pos.x;
         newArray[updatedPos].posY = pos.y;
         setUpdatedProfile(newArray);
-        saveNewProfile();
     }
 
     return (
         <div className='desktop'>
-            <WidgetCanvas profile={[userProfile, updatedProfile]} editMode={editMode} deleteItem={deleteItem} updatePos={newPos}/>
+            <WidgetCanvas profile={[userProfile, updatedProfile]} editMode={editMode} deleteItem={deleteItem} updatePos={newPos} save={saveNewProfile}/>
             <Menu logOut={props.logOut} widgetOnClick={widgetClick} activateEditMode={activateEditMode} editMode={editMode} revertProfile={revertNewProfile} saveProfile={saveNewProfile}/>
         </div>
     )

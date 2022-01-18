@@ -21,7 +21,7 @@ function Widget(props) {
     };
 
     return (
-        <Draggable bounds='.widgetCanvas' onDrag={handleDrag} onStop={handleDrag} disabled={!props.editMode}>
+        <Draggable bounds='.widgetCanvas' onDrag={handleDrag} onStop={() => props.save()} disabled={!props.editMode}>
             <div style={{width: '400px', height: '300px', position: 'absolute', top: `${startPos.y}px`, left: `${startPos.x}px`}} id={props.id}>
                 {props.editMode ? 
                     <div className='DeleteButton' onClick={() => props.deleteItem(props.id)}>

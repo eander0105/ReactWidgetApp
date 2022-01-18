@@ -18,7 +18,15 @@ function WidgetCanvas(props) {
             {props.profile[ + props.editMode].map((item) => {
                 return(
                     <div key={props.id}>
-                        <Widget Widget={widgetLoader(item.widgetCode)} PosX={item.posX} PosY={item.posY} id={item._id} editMode={props.editMode} deleteItem={props.deleteItem} updatePos={props.updatePos}/>
+                        <Widget 
+                            Widget={widgetLoader(item.widgetCode)} 
+                            PosX={item.posX} 
+                            PosY={item.posY} 
+                            id={item._id} 
+                            editMode={props.editMode} 
+                            deleteItem={props.deleteItem} 
+                            updatePos={props.updatePos} 
+                            save={props.save}/>
                     </div>
                 )
             })}
