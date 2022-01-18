@@ -5,7 +5,7 @@ import { useTimer } from 'react-timer-hook';
 import Cookies from 'js-cookie';
 import {BeatLoader, ClipLoader} from "react-spinners";
 
-function WeatherWidget(props) {
+function WeatherWidget() {
 
     const [weatherData, setWeatherData] = useState(false);
     const [forecast, setForecast] = useState(false);
@@ -75,10 +75,7 @@ function WeatherWidget(props) {
     }, [])
 
     const weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-    const d = new Date();
-    let day = weekday[d.getDay()];
-    
+    const d = new Date();    
 
     return (
         <div className='Widget Weather' >                  
@@ -113,16 +110,16 @@ function WeatherWidget(props) {
             {forecast ?
                 <div className='WeatherForecast'>
                     
-                    {forecast.slice(1).map((item) => {
+                    {forecast.slice(1).map((item, index) => {
                         return(
                             <div className='ForecastDay' key={item.datetime.slice(8)}>
                                 <p className='ForecastWeekDay'>
-                                    {weekday[(parseInt(d.getDay()) + parseInt(item.datetime.slice(8))) % 7]}
+                                    {weekday[(d.getDay() + index + 1) % 7]}
                                 </p>
                                 <p className='ForecastDate'>
                                     {item.datetime.slice(5).replace('-', '/')}
                                 </p>
-                                <img src={loadIcon(item.weather.icon).default}/>
+                                    <img src={loadIcon(item.weather.icon).default} alt='weatherIcon'/>
                                 <p className='ForecastTemp'>
                                     {item.high_temp}&deg;                            
                                 </p>

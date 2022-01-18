@@ -59,6 +59,11 @@
 
 .profileForm{
     font-size: 24px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    padding-top: 20px;
+    padding-bottom: 15px;
 }
 
 .WidgetMenu{
@@ -78,8 +83,6 @@
     border-radius: 10px;
     background-color: rgba(0, 0, 0, 0.3);
     width: 27.33%;
-    /* flex-grow: 1;
-    flex-basis: 0; */
 }
 
 .WidgetRow .WidgetItem:hover{
@@ -90,4 +93,47 @@
 .WidgetRow .WidgetItem .WidgetIcon{
     height: 100%;
     width: 100%;
+}
+
+.ProfileToggle{
+    width: 80%;
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 5px 20px 5px 20px;
+}
+
+.profileForm *{
+    padding: 0;
+}
+
+.ProfileSettings{
+    width: 100%;
+    margin-bottom: 5px;
+    font-size: 20px;
+    padding: 2px;
+}
+
+.ProfileToggleLabel{
+    display: flex;
+}
+
+.LogoutBtn{
+    width: 80%;
+    margin-top: 10px;
+}
+
+.EditToggle{
+    width: 80%;
+    margin: 0 auto;
+    padding: 5px;
+}
+
+.EditLabel{
+    font-size: 22px;
+    text-decoration: underline;
+}
+
+.btn:focus{
+    box-shadow: none !important;
 }

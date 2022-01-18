@@ -39,13 +39,11 @@ export default class App extends Component {
               Cookies.set('usercity', res.data.location.city, {sameSite: 'None', secure: true});
               Cookies.set('userlat', res.data.location.lat, {sameSite: 'None', secure: true});
               Cookies.set('userlng', res.data.location.lng, {sameSite: 'None', secure: true});
-              console.log(Cookies.get('userlat'));
               
               this.setState({
                 'authenticated': true,
                 loginError: ''
               });
-              console.log(this.state)
             }
             else{
               this.setState({
@@ -72,7 +70,6 @@ export default class App extends Component {
       lastname: lname, password: pw, repassword: repw, location: city})
       .then((res) => {
         if(res.data.validated){
-          console.log(res);
           this.setState({
             'register': false,
             registerError: ''

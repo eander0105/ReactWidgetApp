@@ -25,14 +25,18 @@ function Desktop(props) {
     }, [])
 
     const widgetClick = (widget) => {
-        const newProfile = [...userProfile, widget]       
-
-        setUserProfile(newProfile)
-        console.log(userProfile);
-        axios.post('/updateWidgets', {username: Cookies.get('username'), widgets: newProfile})
-            .then((result) => {
-                getWidgets();
-            })
+        if (editMode) {
+            setUpdatedProfile([...updatedProfile, widget])
+        }
+        else{
+            const newProfile = [...userProfile, widget]       
+    
+            setUserProfile(newProfile)
+            axios.post('/updateWidgets', {username: Cookies.get('username'), widgets: newProfile})
+                .then((result) => {
+                    getWidgets();
+                })
+        }
     }
 
     const activateEditMode = () => {
@@ -41,12 +45,9 @@ function Desktop(props) {
     }
     
     const saveNewProfile = () => {
-
-        axios.post('/updateWidgets', {username: Cookies.get('username'), widget: updatedProfile})
+        axios.post('/updateWidgets', {username: Cookies.get('username'), widgets: updatedProfile})
             .then((result) =>{
-                console.log(updatedProfile);
                 setUserProfile(updatedProfile);
-                setEditMode(false);
             })
         
     }
@@ -57,22 +58,29 @@ function Desktop(props) {
     }
 
     const deleteItem = (itemId) => {
-        // console.log(updatedProfile.findIndex(x => x._id === itemId));
-        console.log(itemId);
         const removeIndex = updatedProfile.findIndex(x => x._id === itemId)
         const newArray = [];
         for (let i = 0; i < updatedProfile.length; i++) {
             if (i !== removeIndex) {
-                console.log(updatedProfile[i]);
                 newArray.push(updatedProfile[i])
             }
         }
         setUpdatedProfile(newArray);
+        saveNewProfile();
+    }
+
+    const newPos = (itemId, pos) => {
+        const updatedPos = updatedProfile.findIndex(x => x._id === itemId);
+        const newArray = [...updatedProfile];
+        newArray[updatedPos].posX = pos.x;
+        newArray[updatedPos].posY = pos.y;
+        setUpdatedProfile(newArray);
+        saveNewProfile();
     }
 
     return (
         <div className='desktop'>
-            <WidgetCanvas profile={[userProfile, updatedProfile]} editMode={editMode} deleteItem={deleteItem}/>
+            <WidgetCanvas profile={[userProfile, updatedProfile]} editMode={editMode} deleteItem={deleteItem} updatePos={newPos}/>
             <Menu logOut={props.logOut} widgetOnClick={widgetClick} activateEditMode={activateEditMode} editMode={editMode} revertProfile={revertNewProfile} saveProfile={saveNewProfile}/>
         </div>
     )

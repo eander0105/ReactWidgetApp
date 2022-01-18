@@ -105,14 +105,13 @@ function WidgetMenu(props) {
             {menuItems.map((items) => {
                 return(
                     <div className='WidgetRow'>
-                    
-                    {items.map((item) => {
-                        return(
-                            <div className='WidgetItem' onClick={() => props.widgetOnClick({widgetCode: item.WidgetCode, posY: 100, posX: 100})}>
-                                <img className='WidgetIcon' src={loadIcon(item.IconCode).default} alt={item.IconCode} />
-                            </div>
-                        )
-                    })}
+                        {items.map((item) => {
+                            return(
+                                <div className='WidgetItem' onClick={() => props.widgetOnClick({widgetCode: item.WidgetCode, posY: 100, posX: 100})}>
+                                    <img className='WidgetIcon' src={loadIcon(item.IconCode).default} alt={item.IconCode} />
+                                </div>
+                            )
+                        })}
                     </div>
                 )
             })}

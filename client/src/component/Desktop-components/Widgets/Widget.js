@@ -1,9 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Draggable from 'react-draggable';
+import CloseIcon from '@mui/icons-material/Close';
 
 function Widget(props) {
 
-    const [deltaPos, setDeltaPos] = useState({x: 0, y: 0})
+    const [deltaPos, setDeltaPos] = useState({x: props.PosX, y: props.PosY})
+    const [startPos, setStartPos] = useState({x: 0, y: 0})
+
+    useEffect(() => {
+        setStartPos({x: props.PosX, y: props.PosY})
+    }, [])
 
     const handleDrag = (e, ui) => {
         const {x, y} = deltaPos;
@@ -11,14 +17,15 @@ function Widget(props) {
             x: x + ui.deltaX,
             y: y + ui.deltaY,
           })
+        props.updatePos(props.id, deltaPos);
     };
 
     return (
-        <Draggable bounds='.widgetCanvas' grid={[50, 50]} onDrag={handleDrag} disabled={!props.editMode}>
-            <div style={{width: '400px', height: '300px', position: 'absolute', top: `${props.PosY}px`, left: `${props.PosX}px`}} id={props.id}>
+        <Draggable bounds='.widgetCanvas' onDrag={handleDrag} onStop={handleDrag} disabled={!props.editMode}>
+            <div style={{width: '400px', height: '300px', position: 'absolute', top: `${startPos.y}px`, left: `${startPos.x}px`}} id={props.id}>
                 {props.editMode ? 
                     <div className='DeleteButton' onClick={() => props.deleteItem(props.id)}>
-                        X
+                        <CloseIcon/>
                     </div> : ''}
                 {props.Widget}
             </div>

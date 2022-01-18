@@ -5,7 +5,6 @@
     background-color: #17191f;
     border-radius: 20px;
     border: 1px solid black;
-
 }
 
 .Weather{
@@ -19,7 +18,6 @@
     height: 50%;
     width: 80%;
     display: inline;
-    /* background-color: blue; */
 }
 
 .WeatherCurrent .WeatherDesc{
@@ -41,6 +39,10 @@
 .WeatherDesc .WeatherText{
     margin-top: -20px;
     font-size: 1rem;
+    height: 1rem;
+    width: 150%;
+    margin-left: -25%;
+    text-align: center;
 }
 
 .WeatherCurrent .WeatherTemp{
@@ -99,6 +101,7 @@
 
 .WeatherForecast .ForecastTemp{
     margin-top: -5px;
+    margin-bottom: 0;
 }
 
 .WeatherForecast .ForecastDate{
@@ -108,5 +111,18 @@
 
 .WeatherForecast .ForecastWeekDay{
     margin-bottom: 0;
+}
+
+.DeleteButton{
+    height: 0;
+    width: 0;
+    position: absolute;
+    top: 5px;
+    right: 35px;
+}
+
+.DeleteButton:hover{
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.6);
 }
 

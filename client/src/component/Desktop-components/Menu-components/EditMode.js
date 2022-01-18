@@ -1,13 +1,14 @@
-import React, {useState} from 'react'
+import React from 'react'
 
 function EditMode(props) {
     
     return (
         <div>
-            <button className='btn btn-primary' onClick={props.activateEditMode} disabled={props.editMode ? true : false}>Edit</button>
-            <button className='btn btn-primary' onClick={props.revertProfile} disabled={props.editMode ? false : true}>Undo</button>
-            <button className='btn btn-primary' onClick={props.saveProfile} disabled={props.editMode ? false : true}>Save</button>
-
+            <label className='EditLabel'>Edit mode</label>
+            <div className='EditToggle'>
+                <button className='btn btn-primary' style={{width: '50%'}} onClick={props.activateEditMode} disabled={props.editMode ? true : false}>ON</button>
+                <button className='btn btn-primary' style={{width: '50%'}} onClick={props.revertProfile} disabled={props.editMode ? false : true}>OFF</button>
+            </div>
         </div>
     )
 }
