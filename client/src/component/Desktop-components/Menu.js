@@ -9,6 +9,7 @@ import MenuItem from './Menu-components/MenuItem';
 import ProfileSettings from './Menu-components/ProfileSettings';
 import WidgetMenu from './Menu-components/WidgetMenu';
 import EditMode from './Menu-components/EditMode';
+import WidgeyLogo from './Menu-components/assets/WidgeyLogo.png';
 
 function Menu(props) {
 
@@ -23,7 +24,7 @@ function Menu(props) {
             <button className={`toggleBtn btn btn-secondary ${menuActive ? 'active' : ''}`} onClick={toggleMenu}>{menuActive ? '>' : '<'}</button>
             <div className={`menu ${menuActive ? 'active' : ''}`}>
                 <div id='MenuHead'>
-                    Hello {Cookies.get('userfn')} {Cookies.get('userln')}!
+                    <img src={WidgeyLogo} alt='Logo'/>
                 </div>
                 <Scrollbars autoHeight autoHeightMax={'calc(100vh - 75px)'}>
                     <div id='MenuList'>                   

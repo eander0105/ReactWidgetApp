@@ -137,3 +137,7 @@
 .btn:focus{
     box-shadow: none !important;
 }
+
+#MenuHead img{
+    height: 100%;
+}
