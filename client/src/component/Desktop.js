@@ -53,6 +53,7 @@ function Desktop(props) {
 
     const revertNewProfile = () => {
         setEditMode(false);
+        setUserProfile(updatedProfile);
     }
 
     const deleteItem = (itemId) => {
