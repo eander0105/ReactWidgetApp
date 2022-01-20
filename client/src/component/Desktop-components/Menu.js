@@ -29,7 +29,7 @@ function Menu(props) {
                 <Scrollbars autoHeight autoHeightMax={'calc(100vh - 75px)'}>
                     <div id='MenuList'>                   
                         <MenuItem element={<ProfileSettings logOut={props.logOut}/>} Title='Profile' Icon={<AccountCircleIcon/>}/>
-                        <MenuItem element={<WidgetMenu widgetOnClick={props.widgetOnClick} />} Title='Widget Menu' Icon={<AppsIcon/>}/>
+                        <MenuItem element={<WidgetMenu widgetOnClick={props.widgetOnClick} />} Title='Widget menu' Icon={<AppsIcon/>}/>
                         <MenuItem element={<EditMode editMode={props.editMode} activateEditMode={props.activateEditMode} revertProfile={props.revertProfile} saveProfile={props.saveProfile}/>} Title='Edit mode' Icon={<EditIcon/>}/>
                     </div>
                 </Scrollbars>
